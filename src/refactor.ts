@@ -1,8 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
-
-const anthropic = new Anthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY,
-});
+import { Backend } from "./backend.js";
 
 type Parameters = {
     before: string;
@@ -12,13 +8,10 @@ type Parameters = {
     notes: string[];
 };
 
-export async function refactor({
-    before,
-    after,
-    description,
-    source,
-    notes,
-}: Parameters): Promise<string> {
+export async function refactor(
+    { before, after, description, source, notes }: Parameters,
+    backend: Backend,
+): Promise<string> {
     const prompt = `We are trying to refactor some code.
 
 Here's an example of the code before and after refactoring.
@@ -45,12 +38,5 @@ ${source}
 \`\`\`
 
 ${notes.map((line: string) => `* ${line}`).join("\n")}`;
-
-    const msg = await anthropic.messages.create({
-        model: "claude-3-opus-20240229",
-        max_tokens: 4096,
-        messages: [{ role: "user", content: prompt }],
-    });
-
-    return msg.content[0].text;
+    return backend.ask(prompt);
 }

@@ -4,6 +4,7 @@ import { runCommand, extractCode } from "./utils.js";
 import { refactor } from "./refactor.js";
 import fs from "fs";
 import picocolors from "picocolors";
+import * as Backend from "./backend.js";
 
 const parser = new ArgumentParser({
     description: "Automatic refactoring tool",
@@ -14,6 +15,7 @@ parser.add_argument("--revision", { help: "New revision" });
 parser.add_argument("--example", { help: "Path to the example" });
 parser.add_argument("--note", { action: "append", help: "Note" });
 parser.add_argument("path", { nargs: "+", help: "Path to the files" });
+parser.add_argument("--backend", { help: "LLM Backend" });
 
 const args = parser.parse_args();
 
@@ -28,11 +30,18 @@ const oldContent = await runCommand(`git show ${rev}~:${args.example}`);
 const newContent = await runCommand(`git show ${rev}:${args.example}`);
 
 const notes = [
-    ...args.note ?? [],
+    ...(args.note ?? []),
     "preserve exports and comments",
     "if the code structure is significantly different from the example, skip it",
     "output refactored code without explanation",
 ];
+
+let backend;
+if (args.backend === "claude") {
+    backend = new Backend.Claude();
+} else {
+    backend = new Backend.ChatGPT();
+}
 
 for (const file of args.path) {
     if (file === args.example) {
@@ -41,13 +50,16 @@ for (const file of args.path) {
     }
     console.log(picocolors.bold(picocolors.blue(`Refactoring ${file}...`)));
     const code = fs.readFileSync(file).toString();
-    const response = await refactor({
-        before: oldContent,
-        after: newContent,
-        description: message,
-        source: code,
-        notes,
-    });
+    const response = await refactor(
+        {
+            before: oldContent,
+            after: newContent,
+            description: message,
+            source: code,
+            notes,
+        },
+        backend,
+    );
 
     const newCode = extractCode(response, args.dry_run);
     if (!newCode) {
