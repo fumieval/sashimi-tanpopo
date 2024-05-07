@@ -1,0 +1,11 @@
+{
+  "name": "sashimi-tanpopo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Fumiaki Kinoshita",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.20.8"
+  }
+}
