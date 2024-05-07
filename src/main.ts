@@ -11,21 +11,21 @@ const parser = new ArgumentParser({
 
 parser.add_argument("--dry-run", { action: "store_true", help: "Dry run" });
 parser.add_argument("--revision", { help: "New revision" });
-parser.add_argument("--model", { help: "Path to the model" });
+parser.add_argument("--example", { help: "Path to the example" });
 parser.add_argument("--note", { action: "append", help: "Note" });
 parser.add_argument("path", { nargs: "+", help: "Path to the files" });
 
 const args = parser.parse_args();
 
-// if --revision is not set, get the last revision of the model file from git log
+// if --revision is not set, get the last revision of the example file from git log
 const rev =
     args.revision ??
-    (await runCommand(`git log -n 1 --pretty=format:%H -- ${args.model}`));
+    (await runCommand(`git log -n 1 --pretty=format:%H -- ${args.example}`));
 
 const message = await runCommand(`git show -s --format=%B ${rev}`);
 
-const oldContent = await runCommand(`git show ${rev}~:${args.model}`);
-const newContent = await runCommand(`git show ${rev}:${args.model}`);
+const oldContent = await runCommand(`git show ${rev}~:${args.example}`);
+const newContent = await runCommand(`git show ${rev}:${args.example}`);
 
 const notes = [
     ...args.note ?? [],
@@ -35,8 +35,8 @@ const notes = [
 ];
 
 for (const file of args.path) {
-    if (file === args.model) {
-        console.log(`Skipping ${file} as it is the model file`);
+    if (file === args.example) {
+        console.log(`Skipping ${file} as it is the example file`);
         continue;
     }
     console.log(picocolors.bold(picocolors.blue(`Refactoring ${file}...`)));
