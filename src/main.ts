@@ -30,6 +30,7 @@ const newContent = await runCommand(`git show ${rev}:${args.model}`);
 const notes = [
     ...args.note ?? [],
     "preserve exports and comments",
+    "if the code structure is significantly different from the example, skip it",
     "output refactored code without explanation",
 ];
 
