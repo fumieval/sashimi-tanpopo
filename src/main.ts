@@ -33,6 +33,7 @@ const notes = [
     ...(args.note ?? []),
     "preserve `export`s as much as possible",
     "if the given code is unrelated to the example, skip it",
+    "if you have any questions, add comments prefixed with `XXX: `",
     "output refactored code without explanation",
 ];
 
