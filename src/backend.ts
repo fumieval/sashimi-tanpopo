@@ -32,7 +32,7 @@ export class ChatGPT implements Backend {
     }
     async ask(question: string): Promise<string> {
         const chatCompletion = await this.openai.chat.completions.create({
-            messages: [{ role: "user", content: "Say this is a test" }],
+            messages: [{ role: "user", content: question }],
             model: "gpt-4-turbo",
         });
 
