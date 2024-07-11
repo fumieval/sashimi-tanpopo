@@ -15,7 +15,6 @@ parser.add_argument("--revision", { help: "New revision" });
 parser.add_argument("--example", { help: "Path to the example" });
 parser.add_argument("--note", { action: "append", help: "Note" });
 parser.add_argument("path", { nargs: "+", help: "Path to the files" });
-parser.add_argument("--backend", { help: "LLM Backend" });
 
 const args = parser.parse_args();
 
@@ -52,12 +51,7 @@ const notes = [
     "output refactored code without explanation",
 ];
 
-let backend;
-if (args.backend === "claude") {
-    backend = new Backend.Claude();
-} else {
-    backend = new Backend.ChatGPT();
-}
+let backend = new Backend.Claude();
 
 for (const file of args.path) {
     if (file === args.example) {

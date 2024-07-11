@@ -22,20 +22,3 @@ export class Claude implements Backend {
         return msg.content[0].text;
     }
 }
-
-export class ChatGPT implements Backend {
-    private openai: OpenAI;
-    constructor() {
-        this.openai = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY,
-        });
-    }
-    async ask(question: string): Promise<string> {
-        const chatCompletion = await this.openai.chat.completions.create({
-            messages: [{ role: "user", content: question }],
-            model: "gpt-4o",
-        });
-
-        return chatCompletion.choices[0].message.content ?? "";
-    }
-}
