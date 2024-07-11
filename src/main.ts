@@ -27,7 +27,9 @@ if (rev === undefined) {
 } else if (example === undefined) {
     const files = (
         await runCommand(`git show ${rev} --name-only --pretty=format:`)
-    ).split("\n");
+    )
+        .trim()
+        .split("\n");
     if (files.length !== 1) {
         console.log(
             picocolors.bold(
