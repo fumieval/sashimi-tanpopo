@@ -31,9 +31,8 @@ const newContent = await runCommand(`git show ${rev}:${args.example}`);
 
 const notes = [
     ...(args.note ?? []),
-    "preserve `export`s as much as possible",
+    "preserve `export`s and comments as much as possible",
     "if the given code is unrelated to the example, skip it",
-    "if you have any questions, add comments prefixed with `XXX: `",
     "output refactored code without explanation",
 ];
 

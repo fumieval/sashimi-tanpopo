@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import Anthropic from "@anthropic-ai/bedrock-sdk";
 import OpenAI from "openai";
 
 export interface Backend {
@@ -9,13 +9,13 @@ export class Claude implements Backend {
     private anthropic: Anthropic;
     constructor() {
         this.anthropic = new Anthropic({
-            apiKey: process.env.ANTHROPIC_API_KEY,
+            awsRegion: "us-east-1",
         });
     }
     async ask(question: string): Promise<string> {
         const msg = await this.anthropic.messages.create({
-            model: "claude-3-5-sonnet-20240620",
-            max_tokens: 4096,
+            model: "anthropic.claude-3-5-sonnet-20240620-v1:0",
+            max_tokens: 8192,
             messages: [{ role: "user", content: question }],
         });
 

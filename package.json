@@ -5,6 +5,7 @@
     "license": "MIT",
     "type": "module",
     "dependencies": {
+        "@anthropic-ai/bedrock-sdk": "^0.10.1",
         "@anthropic-ai/sdk": "0.20.8",
         "argparse": "^2.0.1",
         "openai": "^4.42.0",
