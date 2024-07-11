@@ -19,15 +19,31 @@ parser.add_argument("--backend", { help: "LLM Backend" });
 
 const args = parser.parse_args();
 
+let example = args.example;
+let rev = args.revision;
 // if --revision is not set, get the last revision of the example file from git log
-const rev =
-    args.revision ??
-    (await runCommand(`git log -n 1 --pretty=format:%H -- ${args.example}`));
+
+if (rev === undefined) {
+    rev = await runCommand(`git log -n 1 --pretty=format:%H -- ${example}`);
+} else if (example === undefined) {
+    const files = (
+        await runCommand(`git show ${rev} --name-only --pretty=format:`)
+    ).split("\n");
+    if (files.length !== 1) {
+        console.log(
+            picocolors.bold(
+                picocolors.red("The diff must have exactly one file"),
+            ),
+        );
+        process.exit(1);
+    }
+    example = files[0];
+}
 
 const message = await runCommand(`git show -s --format=%B ${rev}`);
 
-const oldContent = await runCommand(`git show ${rev}~:${args.example}`);
-const newContent = await runCommand(`git show ${rev}:${args.example}`);
+const oldContent = await runCommand(`git show ${rev}~:${example}`);
+const newContent = await runCommand(`git show ${rev}:${example}`);
 
 const notes = [
     ...(args.note ?? []),
