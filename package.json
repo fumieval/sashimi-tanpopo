@@ -19,6 +19,7 @@
         "prepare": "yarn build"
     },
     "devDependencies": {
+        "@types/argparse": "^2.0.16",
         "prettier": "^3.2.5",
         "tsup": "^8.0.2",
         "typescript": "^5.4.5"

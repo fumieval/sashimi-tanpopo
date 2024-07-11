@@ -1529,6 +1529,11 @@
     "@smithy/util-buffer-from" "^3.0.0"
     tslib "^2.6.2"
 
+"@types/argparse@^2.0.16":
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/@types/argparse/-/argparse-2.0.16.tgz#3bb7ccd2844b3a8bcd6efbd217f6c0ea06a80d22"
+  integrity sha512-aMqBra2JlqpFeCWOinCtpRpiCkPIXH8hahW2+FkGzvWjfE5sAqtOcrjN5DRcMnTQqFDe6gb1CVYuGnBH0lhXwA==
+
 "@types/estree@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
