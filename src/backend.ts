@@ -14,7 +14,7 @@ export class Claude implements Backend {
     }
     async ask(question: string): Promise<string> {
         const msg = await this.anthropic.messages.create({
-            model: "claude-3-opus-20240229",
+            model: "claude-3-5-sonnet-20240620",
             max_tokens: 4096,
             messages: [{ role: "user", content: question }],
         });
