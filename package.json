@@ -3,18 +3,18 @@
     "version": "1.0.0",
     "author": "Fumiaki Kinoshita",
     "license": "MIT",
-    "type": "module",
     "dependencies": {
         "@anthropic-ai/bedrock-sdk": "^0.10.1",
         "@anthropic-ai/sdk": "0.20.8",
         "argparse": "^2.0.1",
+        "fs": "^0.0.1-security",
         "picocolors": "^1.0.0"
     },
     "bin": {
         "sashimi-tanpopo": "./dist/main.js"
     },
     "scripts": {
-        "build": "tsup src/main.ts --format esm && chmod 755 dist/main.js",
+        "build": "tsup src/main.ts --format cjs --minify --no-splitting && chmod 755 dist/main.js",
         "prepare": "yarn build"
     },
     "devDependencies": {
