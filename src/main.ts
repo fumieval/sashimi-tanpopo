@@ -18,6 +18,10 @@ parser.add_argument("--example", {
 });
 parser.add_argument("--note", { action: "append", help: "Note" });
 parser.add_argument("path", { nargs: "+", help: "Path to the files" });
+parser.add_argument("--bedrock", {
+    action: "store_true",
+    help: "Use AWS Bedrock",
+});
 
 const args = parser.parse_args();
 
@@ -70,7 +74,7 @@ async function main() {
         "output refactored code without explanation",
     ];
 
-    let backend = new Backend.Claude();
+    let backend = new Backend.Claude(args.bedrock);
 
     for (const file of args.path) {
         if (file === args.example) {

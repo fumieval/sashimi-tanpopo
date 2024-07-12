@@ -14,7 +14,7 @@
         "sashimi-tanpopo": "./dist/main.js"
     },
     "scripts": {
-        "build": "tsup src/main.ts --format cjs --minify --no-splitting && chmod 755 dist/main.js",
+        "build": "tsup src/main.ts --format cjs --no-splitting --config tsup.config.js && chmod 755 dist/main.js",
         "prepare": "yarn build"
     },
     "devDependencies": {

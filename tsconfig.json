@@ -1,7 +1,9 @@
 {
     "compilerOptions": {
         "target": "es2022",
+        "moduleResolution": "nodenext",
         "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
         "strict": true,
         "outDir": "./dist"
     }

@@ -1,5 +1,5 @@
-import Anthropic from "@anthropic-ai/bedrock-sdk";
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
+import AnthropicBedrock from "@anthropic-ai/bedrock-sdk";
 
 export interface Backend {
     ask(question: string): Promise<string>;
@@ -7,10 +7,14 @@ export interface Backend {
 
 export class Claude implements Backend {
     private anthropic: Anthropic;
-    constructor() {
-        this.anthropic = new Anthropic({
-            awsRegion: "us-east-1",
-        });
+    constructor(bedrock: boolean) {
+        this.anthropic = bedrock
+            ? new AnthropicBedrock({
+                  awsRegion: "us-east-1",
+              })
+            : new Anthropic({
+                  apiKey: process.env.ANTHROPIC_API_KEY,
+              });
     }
     async ask(question: string): Promise<string> {
         const msg = await this.anthropic.messages.create({
